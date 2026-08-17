@@ -1056,6 +1056,8 @@ code, pre, .font-mono {
 .terminal-header {
   background: var(--bg-surface-1);
   padding: 0.75rem 1.25rem;
+  height: 48px;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;

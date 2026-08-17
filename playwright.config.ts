@@ -5,10 +5,19 @@ export default defineConfig({
   fullyParallel: true,
   workers: 2,
   reporter: [['list']],
+  timeout: 45000,
   use: {
     baseURL: 'http://127.0.0.1:5173',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+    reducedMotion: 'reduce',
+  },
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.08,
+      animations: 'disabled',
+      threshold: 0.2,
+    },
   },
   projects: [
     {

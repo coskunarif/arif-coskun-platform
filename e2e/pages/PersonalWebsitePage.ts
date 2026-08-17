@@ -71,13 +71,17 @@ export class PersonalWebsitePage {
   async selectArchitectureTab(index: number) {
     const tab = this.archTabs.nth(index);
     await tab.scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(150);
     await tab.click({ force: true });
+    await this.page.waitForTimeout(250);
   }
 
   async selectArchitectureNode(index: number) {
     const node = this.archNodes.nth(index);
     await node.scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(150);
     await node.click({ force: true });
+    await this.page.waitForTimeout(250);
   }
 
   async executeTerminalCommand(cmd: string) {

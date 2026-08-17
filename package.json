@@ -11,6 +11,8 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
+    "test:visual": "playwright test e2e/visual-regression.spec.ts",
+    "test:visual:update": "playwright test e2e/visual-regression.spec.ts --update-snapshots",
     "test:quality-gate": "npx tsx test/verify-quality-gate.ts",
     "test:all": "npm run test && npm run test:e2e && npm run test:quality-gate",
     "deploy:pages": "npm run build && npx wrangler pages deploy dist --project-name=arif-coskun-platform --branch=main --commit-dirty=true",
