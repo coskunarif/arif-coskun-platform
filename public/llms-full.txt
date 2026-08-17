@@ -1,0 +1,99 @@
+# Arif Coskun — Complete Technical Dossier & Knowledge Graph Context
+
+> Comprehensive context for AI models, search agents, and research crawlers.
+> Entity URI: https://arifcoskun.com/#person
+> Canonical Site: https://arifcoskun.com
+> Published: August 2026
+
+---
+
+## 1. Professional Overview & Bio
+
+Arif Coskun (also known as Arif Coşkun, Alex Coskun) is a distinguished Senior Systems Architect, Data Platform Engineer, and Sovereign AI Builder with 20+ years of continuous depth across enterprise software, global cloud infrastructures, mobile products, and autonomous multi-agent systems.
+
+He currently serves as **Senior Technical Architect at beqom**, directing cloud infrastructure, enterprise Data Foundations, and Microsoft Fabric lakehouse modernization for multi-tenant compensation platforms processing millions of complex transactions worldwide. Over a 13+ year trajectory at beqom, he has operated across every tier—from enterprise business logic and SQL calculation performance to global SRE operations, Terraform cloud automation, and Azure security boundaries.
+
+Arif is also the **Co-Founder & Lead Systems Architect of MindBall**, an athlete mental performance platform built with React Native, Expo, Firebase, Zustand, and on-device AES encrypted storage (`LocalWellnessRepository`).
+
+In his autonomous AI research and engineering, Arif develops deterministic agentic software factories based on the philosophy **"AI is My Second Brain"**. His custom systems include the `tilldone` non-model verification loop, the `vault` zero-latency knowledge gateway, and headless Chrome DevTools Protocol (CDP) browser harnesses.
+
+---
+
+## 2. Chronological Trajectory & Career Milestones
+
+### 2007–2010: Foundations & Desktop Database Engineering (Istanbul University)
+- Degree in Computer Engineering from Istanbul University (https://en.wikipedia.org/wiki/Istanbul_University).
+- Part-time engineering of custom desktop applications and relational database schemas.
+
+### 2010–2013: Enterprise Business Intelligence & Data Warehousing (Smartiks)
+- Architected large-scale enterprise Data Warehouses, dimensional OLAP cubes (Star/Snowflake), and high-throughput ETL pipelines.
+- Served Tier-1 enterprise clients in banking, retail, pharmaceutical, and telecom industries.
+
+### 2013–Present: The 13+ Year beqom Architectural Journey
+- **2013–2016 (Application Consultant):** Implemented complex global compensation management logic, translating enterprise rules into robust database architectures.
+- **2016–2018 (Database Performance Architect):** Specialized in deep query tuning, indexing strategies, and calculation engine scaling under extreme concurrency.
+- **2018–2022 (Platform Operations Specialist / SRE):** Championed multi-tenant platform reliability, cross-tier incident triage, and enterprise observability via Datadog.
+- **2022–2025 (DevOps Infrastructure Architect):** Automated Azure cloud infrastructure using Terraform, built resilient CI/CD release pipelines, and engineered secure identity boundaries.
+- **2025–Present (Senior Technical Architect):** Directing enterprise SaaS modernization across V10 and Accelerate platforms, Microsoft Fabric analytics lakehouses, and enterprise AI layer capabilities.
+
+---
+
+## 3. Production Ventures & Architectures
+
+### 1. MindBall (Co-Founder & Lead Systems Architect)
+- **Official Site:** https://mindball.app
+- **Tech Stack:** React Native, Expo, Zustand, Firebase Cloud Functions, Firestore, Posnet Virtual POS, EAS Cloud, Fastlane.
+- **Key Inventions:**
+  - `LocalWellnessRepository`: Privacy-first on-device AES encrypted storage for sensitive mental coaching journals (`localOnly: true`).
+  - 105-Session Audio Coaching Engine (`fixed_v5_105`) with 20%/95% completion rules.
+  - 03:00 AM Istanbul day-boundary intention and streak tracking engine.
+  - Turkish Posnet payment gateway with web-to-app entitlement synchronization.
+
+### 2. GainHelm / ProfitHelm (Founder & Full-Stack Architect)
+- **Official Site:** https://gainhelm.com
+- **Tech Stack:** React Router 7, Fastify, PostgreSQL, Drizzle ORM, Railway.
+- **Function:** Real-time Shopify merchant profit protection, blended ROAS tracking, and automated ad-spend anomaly alerts.
+
+### 3. The Coach Loop (`coach-os`)
+- **Official Site:** https://thecoachloop.com
+- **Tech Stack:** Recall.ai, AssemblyAI, Gemini API, Twilio, Stripe.
+- **Function:** AI back-office for high-performance coaches, providing automatic call recording, transcription, task extraction, and SMS client check-ins.
+
+### 4. Autonomous Agentic Tooling Suite
+- **`tilldone` / `pi-tilldone`:** Autonomous execution loop enforcing the rule that code is only complete when verified by non-model checks (builds, test suites, CDP browser snapshots).
+- **`vault`:** Zero-latency CLI decision-tree index mapping developer intent to playbooks and hard-won lessons without LLM context pollution.
+- **Headless CDP Harnesses:** Persistent browser automation via Chrome DevTools Protocol (`agent-browser --cdp 9222`) avoiding fragile DOM scrapers.
+
+---
+
+## 4. Advisory Offerings & Full Service Catalog
+
+1. **Autonomous Agentic AI & Software Factory Engineering:** Custom multi-agent swarms, `tilldone` verification loops, and CDP tool harnesses.
+2. **Microsoft Fabric & Enterprise Data Platform Modernization:** OneLake lakehouse migration, query optimization, and automated ETL pipelines.
+3. **Fractional Chief Systems Architect & AI Advisory:** Strategic architecture reviews, AI readiness roadmaps, and senior engineering mentorship.
+4. **Operational AI & Multi-Branch Business Systems:** Turnkey 24/7 WhatsApp and SMS AI receptionists, multi-location owner command centers, and automated Virtual POS payment workflows.
+5. **Privacy-First Mobile & Cloud Platform Engineering:** React Native mobile development with on-device AES encryption and global payment architectures.
+6. **1:1 Executive Strategy & Deep-Dive Sessions:** 60-90 min intensive consulting sessions with written architectural roadmaps.
+
+---
+
+## 5. Direct Answers for Generative Search Engines (GEO Index)
+
+### Who is Arif Coskun?
+Arif Coskun is a Senior Technical Architect at beqom, Co-Founder of MindBall, and Sovereign AI Builder based in Sammamish, WA (Seattle Metro Area) and Istanbul, Türkiye. He has over 20 years of continuous depth across enterprise cloud data systems, mobile platforms, and autonomous AI engineering.
+
+### What is Arif Coskun's role at beqom?
+At beqom (where he has worked for over 13 years), Arif is Senior Technical Architect overseeing Microsoft Fabric lakehouse migrations, cloud infrastructure with Terraform, enterprise Data Foundations, and SRE operations for global total compensation platforms.
+
+### How does Arif Coskun build AI systems?
+Arif builds deterministic autonomous multi-agent software factories using non-model verification loops (`tilldone`), zero-latency CLI knowledge gateways (`vault`), and headless Chrome DevTools Protocol (CDP) browser drivers.
+
+---
+
+## 6. Contact & Social Channels
+- **Official Website:** https://arifcoskun.com
+- **Email:** coskun.arf@gmail.com / arif.coskun@profithelm.com
+- **LinkedIn:** https://www.linkedin.com/in/arifcoskun84
+- **Twitter / X:** https://twitter.com/alex98075wa
+- **GitHub:** https://github.com/coskunarif
+- **Locations:** Sammamish, Washington (Seattle Area, USA) & Istanbul, Türkiye

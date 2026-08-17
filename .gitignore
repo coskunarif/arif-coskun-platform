@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Production build
+dist/
+
+# Logs & temp
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.system_generated/
+*.Zone.Identifier
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE & OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Playwright & test reports
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Cloudflare
+.wrangler/
