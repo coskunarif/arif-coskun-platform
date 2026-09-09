@@ -1,4 +1,4 @@
-# Arif Coskun Personal Platform Workspace
+# Arif Coskun Personal Platform Workspace (`arifcoskun.com`)
 
 ## Mission
 Architect and deliver the world-class personal website and advisory authority hub for **Arif Coskun** (Senior Technical Architect @ beqom, Co-Founder of MindBall, Sovereign AI Builder).
@@ -7,23 +7,47 @@ Architect and deliver the world-class personal website and advisory authority hu
 - **The Triple Threat:** 20+ Years Enterprise Cloud & Data Platforms (beqom 13+ yrs, Microsoft Fabric) + Co-Founder of MindBall (React Native, on-device AES encryption, Posnet) + Sovereign AI Builder (`tilldone` loops, `vault` knowledge routing, multi-agent swarms).
 - **Core Standard:** "High-Truth, Low-Slop" — Every claim must be backed by verifiable architectural blueprints, live apps, or empirical code.
 
-## Workspace Skills (Active)
-1. [`personal-site-ui-ux`](./.agents/skills/personal-site-ui-ux/SKILL.md) — Obsidian/Slate luxury editorial dark design system, fluid typography, interactive architecture explorer, spring physics, and anti-cliché guardrails.
-2. [`modern-web-architecture`](./.agents/skills/modern-web-architecture/SKILL.md) — 100/100 Core Web Vitals, sub-second LCP, zero CLS, WCAG 2.2 AA accessibility, and 0-shift bilingual state engine (EN ⇄ TR).
-3. [`test-driven-development`](./.agents/skills/test-driven-development/SKILL.md) — Strict Red-Green-Refactor TDD methodology, 3 Iron Laws, vertical slicing, public seam design, and anti-pattern prevention.
-4. [`vitest-unit-testing`](./.agents/skills/vitest-unit-testing/SKILL.md) — Vite-native, ESM-first TypeScript unit testing, JSDOM emulation, bilingual dictionary parity audits, and data model contracts.
-5. [`playwright-e2e-testing`](./.agents/skills/playwright-e2e-testing/SKILL.md) — Cross-browser E2E automation, Page Object Model (POM), dark luxury theme visual regression, and interactive smoke tests.
-6. [`seo-geo-discovery`](./.agents/skills/seo-geo-discovery/SKILL.md) — JSON-LD Knowledge Graph, Generative Engine Optimization (GEO) for ChatGPT Search / Perplexity / Claude / Gemini, `/llms.txt`, and bilingual `hreflang`.
-7. [`bilingual-copy-and-conversion`](./.agents/skills/bilingual-copy-and-conversion/SKILL.md) — High-signal storytelling, dual-market psychology (US tech market & Turkish ecosystem), and monetization funnels.
-8. [`personal-site-verification`](./.agents/skills/personal-site-verification/SKILL.md) — The `tilldone` 5-step empirical verification gate.
-9. [`google-cloud`](./.agents/skills/google-cloud/SKILL.md) — Google Cloud Platform infrastructure management via `gcloud` (IAM, Cloud Run, Cloud Storage, Secret Manager, ADC).
-10. [`verify-target`](./.agents/skills/verify-target/SKILL.md) — Mandatory pre-flight verification gate for production targets, branch correctness, and deploy safety.
-11. [`google-search-console-cli`](./.agents/skills/google-search-console-cli/SKILL.md) — Google Search Console inspection, sitemap indexing, query analytics, and property management.
-12. [`cloudflare-platform`](./.agents/skills/cloudflare-platform/SKILL.md) — Edge DNS, WAF rules, and Cloudflare platform automation.
+## Workspace Contracts & Visual Ground Truth
+- **Visual Ground Truth:** [`DESIGN.md`](./DESIGN.md) — Single visual source of truth. Adhere strictly to the Obsidian/Slate luxury editorial design tokens, fluid typography scale, OKLCH colors, 44×44px mobile touch targets, and strict anti-cliché guardrails (no purple/indigo AI clichés, no generic bento boxes, no pure black OLED smear).
+- **Copy Standards:** Adhere to global `stop-slop` filter (zero AI buzzwords, BLUF clarity, authentic engineer voice).
+
+## The 5-Step `tilldone` Empirical Verification Gate
+
+An agent is **never** done because it generated code without syntax errors. Software is done only when empirical verification checks pass:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                       THE 5-STEP TILLDONE VERIFICATION GATE                     │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│ 1. TYPE-CHECK: npx tsc --noEmit (clean build, zero TypeScript diagnostics)      │
+│ 2. VITEST: npm run test (100% pass across all unit, DOM app, & schema tests)    │
+│ 3. PLAYWRIGHT: npm run test:e2e (cross-browser user flows, bilingual nav, term) │
+│ 4. LIGHTHOUSE: npm run test:quality-gate (100/100 scores, <1.0s LCP, 0.00 CLS)  │
+│ 5. DOCKER BUILD: docker build -t arifcoskun-platform . (clean multi-stage build)│
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+1. **Type-Check:** `npx tsc --noEmit` (or `npm run build` static generation)
+2. **Vitest Unit & DOM:** `npm run test`
+3. **Playwright E2E:** `npm run test:e2e`
+4. **Lighthouse & Quality Gate:** `npm run test:quality-gate`
+5. **Docker Build:** `docker build -t arifcoskun-platform .`
+
+## Specialized Capabilities (Retrieve via Vault on Demand)
+
+When executing specialized tasks, query `vault route "<capability>"` to pull the exact procedural manual without context bloat:
+
+| Domain / Task | Command to Run | What it Loads |
+| :--- | :--- | :--- |
+| **Personal Site Verification** | `vault route "personal verification"` | `personal-site-verification` (The 5-step tilldone empirical verification gate) |
+| **Personal Bilingual Copy** | `vault route "personal bilingual copy"` | `personal-bilingual-copy` (EN/TR voice, narrative matrix, 7-sweep quality gate) |
+| **Personal Web Architecture** | `vault route "personal web architecture"` | `personal-web-architecture` (100/100 Lighthouse, sub-1s LCP, zero CLS, WCAG 2.2 AA, 0-shift bilingual state) |
+| **Personal Luxury Design** | `vault route "personal luxury design"` | `personal-site-ui-ux` (Obsidian dark aesthetic, OKLCH tokens, fluid typography, micro-interactions) |
+| **Playwright E2E Testing** | `vault route "playwright e2e testing"` | `playwright-e2e-testing` (Cross-browser E2E automation, POM, dark luxury visual regression) |
+| **Google Cloud Infrastructure** | `vault route "google cloud"` | `google-cloud` (Cloud Run, Cloud Storage, IAM, Secret Manager, ADC deployment) |
 
 ## Key Planning Blueprints
 - [Master Strategy & Positioning](./personal-website-strategy.md)
 - [Service & Advisory Offerings Catalog](./service-offerings-catalog.md)
 - [Bilingual Content Architecture](./content-architecture-bilingual.md)
 - [SEO & GEO Strategy](./seo-geo-strategy.md)
-
