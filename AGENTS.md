@@ -11,27 +11,17 @@ Architect and deliver the world-class personal website and advisory authority hu
 - **Visual Ground Truth:** [`DESIGN.md`](./DESIGN.md) — Single visual source of truth. Adhere strictly to the Obsidian/Slate luxury editorial design tokens, fluid typography scale, OKLCH colors, 44×44px mobile touch targets, and strict anti-cliché guardrails (no purple/indigo AI clichés, no generic bento boxes, no pure black OLED smear).
 - **Copy Standards:** Adhere to global `stop-slop` filter (zero AI buzzwords, BLUF clarity, authentic engineer voice).
 
-## The 5-Step `tilldone` Empirical Verification Gate
+## 1. Runtime & Dev Commands
+- **Dev Server (Port 5173)**: `npm run dev`
+- **Preview (Port 4173)**: `npm run preview`
+- **Deploy**: `npm run deploy:pages` (Cloudflare Pages) | `./deploy-gcp.sh` (Cloud Run)
 
-An agent is **never** done because it generated code without syntax errors. Software is done only when empirical verification checks pass:
-
-```
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                       THE 5-STEP TILLDONE VERIFICATION GATE                     │
-├─────────────────────────────────────────────────────────────────────────────────┤
-│ 1. TYPE-CHECK: npx tsc --noEmit (clean build, zero TypeScript diagnostics)      │
-│ 2. VITEST: npm run test (100% pass across all unit, DOM app, & schema tests)    │
-│ 3. PLAYWRIGHT: npm run test:e2e (cross-browser user flows, bilingual nav, term) │
-│ 4. LIGHTHOUSE: npm run test:quality-gate (100/100 scores, <1.0s LCP, 0.00 CLS)  │
-│ 5. DOCKER BUILD: docker build -t arifcoskun-platform . (clean multi-stage build)│
-└─────────────────────────────────────────────────────────────────────────────────┘
-```
-
-1. **Type-Check:** `npx tsc --noEmit` (or `npm run build` static generation)
-2. **Vitest Unit & DOM:** `npm run test`
-3. **Playwright E2E:** `npm run test:e2e`
-4. **Lighthouse & Quality Gate:** `npm run test:quality-gate`
-5. **Docker Build:** `docker build -t arifcoskun-platform .`
+## 2. The 5-Step `tilldone` Empirical Verification Gate
+1. `npx tsc --noEmit` (clean build, zero TypeScript diagnostics)
+2. `npm run test` (100% pass across Vitest unit/DOM tests)
+3. `npm run test:e2e` (Playwright cross-browser user flows)
+4. `npm run test:quality-gate` (Lighthouse 100/100, <1s LCP, 0 CLS)
+5. `docker build -t arifcoskun-platform .` (clean multi-stage build)
 
 ## Specialized Capabilities (Retrieve via Vault on Demand)
 
