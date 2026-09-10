@@ -20,11 +20,16 @@ class AppController {
   private terminalCmdHistory: string[] = [];
   private historyIndex: number = -1;
   private selectedPaletteIndex: number = 0;
+  private currentTheme: string = 'auric';
+  private isBlueprintMode: boolean = false;
 
   constructor() {
     this.initLocale();
+    this.initPaletteTheme();
+    this.initBlueprintMode();
     this.initDOM();
     this.bindEvents();
+    this.bindPaletteEvents();
     this.startDualClock();
     this.runDefaultTerminalCmd();
   }
@@ -44,11 +49,27 @@ class AppController {
     }
   }
 
+  private safeGetStorage(key: string): string | null {
+    try {
+      return typeof localStorage !== 'undefined' ? localStorage.getItem(key) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  private safeSetStorage(key: string, value: string): void {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(key, value);
+      }
+    } catch {}
+  }
+
   public setLocale(locale: Locale): void {
     if (this.currentLocale === locale) return;
 
     this.currentLocale = locale;
-    localStorage.setItem('arif_lang', locale);
+    this.safeSetStorage('arif_lang', locale);
     const url = new URL(window.location.href);
     url.searchParams.set('lang', locale);
     window.history.replaceState({}, '', url.toString());
@@ -98,6 +119,163 @@ class AppController {
         btn.setAttribute('aria-pressed', 'false');
       }
     });
+  }
+
+  /* --------------------------------------------------------------------------
+     Architectural Palette Harmonies ("The Architect's Dial")
+     -------------------------------------------------------------------------- */
+
+  private initPaletteTheme(): void {
+    const saved = this.safeGetStorage('arif_palette_theme');
+    if (saved && ['auric', 'amber', 'titanium', 'emerald', 'cobalt'].includes(saved)) {
+      this.currentTheme = saved;
+    } else {
+      this.currentTheme = 'auric';
+    }
+    this.applyPaletteTheme(this.currentTheme);
+  }
+
+  public setPaletteTheme(theme: string): void {
+    if (!['auric', 'amber', 'titanium', 'emerald', 'cobalt'].includes(theme)) return;
+    this.currentTheme = theme;
+    this.safeSetStorage('arif_palette_theme', theme);
+    this.applyPaletteTheme(theme);
+    this.announceA11y(`Palette harmony updated to ${theme}`);
+  }
+
+  private applyPaletteTheme(theme: string): void {
+    document.documentElement.setAttribute('data-theme', theme);
+
+    const activeSwatch = document.getElementById('palette-active-swatch');
+    const activeName = document.getElementById('palette-active-name');
+    const dialBtn = document.getElementById('palette-dial-btn');
+    const hudTheme = document.getElementById('hud-theme-label');
+
+    const themeNames: Record<string, string> = {
+      auric: 'Auric',
+      amber: 'Amber',
+      titanium: 'Titanium',
+      emerald: 'Nordic',
+      cobalt: 'Cobalt',
+    };
+
+    const hudLabels: Record<string, string> = {
+      auric: 'AURIC OBSIDIAN',
+      amber: 'SIGNAL AMBER',
+      titanium: 'TITANIUM SWISS',
+      emerald: 'NORDIC FOREST',
+      cobalt: 'COBALT ELECTRIC',
+    };
+
+    if (activeSwatch) {
+      activeSwatch.className = `palette-swatch swatch-${theme}`;
+    }
+    if (activeName) {
+      activeName.textContent = themeNames[theme] || 'Auric';
+    }
+    if (dialBtn) {
+      dialBtn.title = `Color Harmony: ${hudLabels[theme] || 'Auric Obsidian'}`;
+    }
+    if (hudTheme) {
+      hudTheme.textContent = hudLabels[theme] || 'AURIC OBSIDIAN';
+    }
+
+    const options = document.querySelectorAll('.palette-opt');
+    options.forEach(opt => {
+      if (opt.getAttribute('data-theme') === theme) {
+        opt.classList.add('active');
+        opt.setAttribute('aria-selected', 'true');
+      } else {
+        opt.classList.remove('active');
+        opt.setAttribute('aria-selected', 'false');
+      }
+    });
+  }
+
+  private initBlueprintMode(): void {
+    this.isBlueprintMode = this.safeGetStorage('arif_blueprint_mode') === 'true';
+    if (this.isBlueprintMode) {
+      document.body.classList.add('blueprint-mode');
+    }
+    const btn = document.getElementById('blueprint-toggle-btn');
+    if (btn) {
+      btn.setAttribute('aria-pressed', this.isBlueprintMode ? 'true' : 'false');
+      if (this.isBlueprintMode) btn.classList.add('active');
+    }
+  }
+
+  public toggleBlueprintMode(): void {
+    this.isBlueprintMode = !this.isBlueprintMode;
+    this.safeSetStorage('arif_blueprint_mode', this.isBlueprintMode ? 'true' : 'false');
+    document.body.classList.toggle('blueprint-mode', this.isBlueprintMode);
+    const btn = document.getElementById('blueprint-toggle-btn');
+    if (btn) {
+      btn.setAttribute('aria-pressed', this.isBlueprintMode ? 'true' : 'false');
+      btn.classList.toggle('active', this.isBlueprintMode);
+    }
+    this.announceA11y(this.isBlueprintMode ? 'CAD Blueprint mode activated' : 'CAD Blueprint mode disabled');
+  }
+
+  private bindPaletteEvents(): void {
+    const dialBtn = document.getElementById('palette-dial-btn');
+    const dropdown = document.getElementById('palette-dropdown');
+    const blueprintBtn = document.getElementById('blueprint-toggle-btn');
+
+    if (dialBtn && dropdown) {
+      if (!(dialBtn as any).__paletteBound) {
+        (dialBtn as any).__paletteBound = true;
+
+        dialBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = dropdown.classList.contains('active');
+          dropdown.classList.toggle('active', !isOpen);
+          dialBtn.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
+          dropdown.setAttribute('aria-hidden', !isOpen ? 'false' : 'true');
+        });
+
+        const options = dropdown.querySelectorAll('.palette-opt');
+        options.forEach(opt => {
+          opt.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const theme = opt.getAttribute('data-theme');
+            if (theme) {
+              this.setPaletteTheme(theme);
+              dropdown.classList.remove('active');
+              dialBtn.setAttribute('aria-expanded', 'false');
+              dropdown.setAttribute('aria-hidden', 'true');
+            }
+          });
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!dialBtn.isConnected || !dropdown.isConnected) return;
+          if (!dialBtn.contains(e.target as Node) && !dropdown.contains(e.target as Node)) {
+            dropdown.classList.remove('active');
+            dialBtn.setAttribute('aria-expanded', 'false');
+            dropdown.setAttribute('aria-hidden', 'true');
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (!dialBtn.isConnected || !dropdown.isConnected) return;
+          if (e.key === 'Escape' && dropdown.classList.contains('active')) {
+            dropdown.classList.remove('active');
+            dialBtn.setAttribute('aria-expanded', 'false');
+            dropdown.setAttribute('aria-hidden', 'true');
+            dialBtn.focus();
+          }
+        });
+      }
+    }
+
+    if (blueprintBtn) {
+      if (!(blueprintBtn as any).__blueprintBound) {
+        (blueprintBtn as any).__blueprintBound = true;
+        blueprintBtn.addEventListener('click', () => {
+          this.toggleBlueprintMode();
+        });
+      }
+    }
   }
 
   private applyDOMTranslations(): void {

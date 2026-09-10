@@ -302,6 +302,58 @@
           <button class="lang-btn lang-btn-tr" data-lang="tr" aria-pressed="false" aria-label="Türkçe diline geç">TR</button>
         </div>
 
+        <!-- Architectural Palette Switcher ("Architect's Dial") -->
+        <div class="palette-switcher" id="palette-switcher" role="group" aria-label="Color Harmony Dial">
+          <button class="palette-dial-btn" id="palette-dial-btn" aria-label="Select Color Harmony" title="Color Harmony: Auric Obsidian" aria-haspopup="true" aria-expanded="false">
+            <span class="palette-swatch swatch-auric" id="palette-active-swatch"></span>
+            <span class="palette-name" id="palette-active-name">Auric</span>
+            <svg class="palette-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="palette-dropdown" id="palette-dropdown" role="menu" aria-hidden="true">
+            <button class="palette-opt active" data-theme="auric" role="menuitem" tabindex="-1">
+              <span class="palette-swatch swatch-auric"></span>
+              <div class="palette-opt-info">
+                <span class="palette-opt-title">Auric Obsidian</span>
+                <span class="palette-opt-sub">Brass &amp; Warm Gold</span>
+              </div>
+            </button>
+            <button class="palette-opt" data-theme="amber" role="menuitem" tabindex="-1">
+              <span class="palette-swatch swatch-amber"></span>
+              <div class="palette-opt-info">
+                <span class="palette-opt-title">Signal Amber</span>
+                <span class="palette-opt-sub">Braun &amp; Leica Industrial</span>
+              </div>
+            </button>
+            <button class="palette-opt" data-theme="titanium" role="menuitem" tabindex="-1">
+              <span class="palette-swatch swatch-titanium"></span>
+              <div class="palette-opt-info">
+                <span class="palette-opt-title">Titanium Swiss</span>
+                <span class="palette-opt-sub">Bauhaus Monochrome</span>
+              </div>
+            </button>
+            <button class="palette-opt" data-theme="emerald" role="menuitem" tabindex="-1">
+              <span class="palette-swatch swatch-emerald"></span>
+              <div class="palette-opt-info">
+                <span class="palette-opt-title">Nordic Forest</span>
+                <span class="palette-opt-sub">Sage Verification</span>
+              </div>
+            </button>
+            <button class="palette-opt" data-theme="cobalt" role="menuitem" tabindex="-1">
+              <span class="palette-swatch swatch-cobalt"></span>
+              <div class="palette-opt-info">
+                <span class="palette-opt-title">Cobalt Electric</span>
+                <span class="palette-opt-sub">Classic Systems Blue</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Architectural CAD Blueprint Toggle -->
+        <button class="blueprint-toggle-btn" id="blueprint-toggle-btn" aria-label="Toggle Architectural Blueprint Grid" title="Toggle Blueprint CAD Grid &amp; Coordinates" aria-pressed="false">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+          <span class="blueprint-btn-text">CAD</span>
+        </button>
+
         <button class="cmd-palette-trigger" id="cmd-k-trigger" aria-label="Open Command Palette (Cmd+K)" title="Quick Command Palette (Cmd+K)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <span class="cmd-k-text">Search</span>
@@ -945,6 +997,16 @@
             <li><a href="/robots.txt" target="_blank" class="footer-link">robots.txt</a></li>
             <li><a href="/sitemap.xml" target="_blank" class="footer-link">sitemap.xml</a></li>
           </ul>
+        </div>
+      </div>
+
+      <!-- Architectural Telemetry HUD -->
+      <div class="architectural-telemetry-hud" id="arch-telemetry-hud" aria-label="Architectural System Telemetry">
+        <div class="hud-inner">
+          <div class="hud-item"><span class="hud-pulse"></span> <span class="hud-label">TELEMETRY:</span> <span class="hud-val">LIVE 100% DETERMINISTIC</span></div>
+          <div class="hud-item"><span class="hud-label">COORDINATES:</span> <span class="hud-val">47.592°N 122.035°W (SAMMAMISH, WA)</span></div>
+          <div class="hud-item"><span class="hud-label">HARMONY:</span> <span class="hud-val" id="hud-theme-label">AURIC OBSIDIAN</span></div>
+          <div class="hud-item"><span class="hud-label">STANDARD:</span> <span class="hud-val">HIGH-TRUTH · ANTI-SLOP</span></div>
         </div>
       </div>
 
