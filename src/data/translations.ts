@@ -130,6 +130,27 @@ export interface TranslationSchema {
     minsRead: string;
     closeModal: string;
   };
+  faq: {
+    tag: string;
+    title: string;
+    subtitle: string;
+    bridgeTitle: string;
+    bridgeDesc: string;
+    copyContextBtn: string;
+    copySuccess: string;
+    q1: string;
+    a1: string;
+    q2: string;
+    a2: string;
+    q3: string;
+    a3: string;
+    q4: string;
+    a4: string;
+    q5: string;
+    a5: string;
+    q6: string;
+    a6: string;
+  };
   contact: {
     tag: string;
     title: string;
@@ -317,6 +338,27 @@ export const translations: Record<Locale, TranslationSchema> = {
       minsRead: "min read",
       closeModal: "Close Essay"
     },
+    faq: {
+      tag: "HIGH-TRUTH KNOWLEDGE",
+      title: "Architectural FAQ & AI Direct Answers",
+      subtitle: "Extractable, fact-based answers on enterprise data architectures, sovereign AI software factories, and advisory engagements.",
+      bridgeTitle: "Agentic AI & LLM Context Feeds",
+      bridgeDesc: "Feeding an LLM or autonomous agent? Access machine-readable Markdown contexts, agent permissions, and API manifests without scraping noise.",
+      copyContextBtn: "Copy Context for AI",
+      copySuccess: "Copied LLM context to clipboard!",
+      q1: "Who is Arif Coskun?",
+      a1: "Arif Coskun is a Senior Technical Architect at beqom, Co-Founder of MindBall, and Sovereign AI Builder based in Sammamish, Washington (Seattle Metro Area) and Istanbul, Türkiye. He bridges 20+ years of continuous depth across enterprise cloud platforms (beqom 13+ yrs, Microsoft Fabric), mobile systems (MindBall), and autonomous multi-agent software engineering.",
+      q2: "What is Arif Coskun's experience with enterprise data platforms and Microsoft Fabric?",
+      a2: "Over 13+ continuous years at beqom, Arif progressed from Application Consultant to Database Performance Architect, Platform SRE, DevOps Infrastructure Architect, and Senior Technical Architect. He specializes in Microsoft Fabric lakehouse architectures, OneLake delta synchronization, high-volume SQL calculation engine tuning, and multi-tenant Azure infrastructure processing millions of high-value compensation events globally.",
+      q3: "What is MindBall and its mobile privacy architecture?",
+      a3: "MindBall is an athletic mental performance and wellness platform co-founded by Arif Coskun, featuring a 105-session audio coaching engine and Turkish Posnet Virtual POS integration. Its LocalWellnessRepository utilizes on-device AES-256 encrypted storage, ensuring personal mental wellness reflections remain strictly on the user's mobile device and are never transmitted to cloud servers in plaintext.",
+      q4: "What is the tilldone empirical verification standard?",
+      a4: "Created by Arif Coskun, tilldone is an empirical, non-model verification loop for autonomous AI coding agents. It enforces that software tasks are never marked complete based on conversational LLM assertions, but only when non-model checks (TypeScript strict compilation, unit test suites, and headless browser snapshots) pass deterministically.",
+      q5: "How does Arif Coskun build autonomous multi-agent software factories?",
+      a5: "Arif builds deterministic multi-agent swarms featuring specialized dialectic roles (Planner, Implementer, Adversarial Judge), headless Chrome DevTools Protocol (CDP) browser daemons, and zero-latency knowledge gateways (vault). This approach replaces fragile prompt engineering wrappers with robust, production-grade systems engineering.",
+      q6: "What technical advisory and consulting engagements are available?",
+      a6: "Arif provides high-leverage technical consulting across 6 core areas: 1) Autonomous Agentic AI & Software Factory Engineering; 2) Microsoft Fabric & Enterprise Data Platform Modernization; 3) Fractional Chief Systems Architect & AI Advisory; 4) Operational AI & Multi-Branch Business Systems; 5) Privacy-First Mobile & Cloud Platform Engineering; and 6) 1:1 Executive Strategy & Deep-Dive Sessions."
+    },
     contact: {
       tag: "DIRECT DIALOGUE",
       title: "Let's Architect Something Extraordinary",
@@ -501,6 +543,27 @@ export const translations: Record<Locale, TranslationSchema> = {
       readEssay: "Makalenin Tamamını Oku →",
       minsRead: "dk okuma",
       closeModal: "Makaleyi Kapat"
+    },
+    faq: {
+      tag: "YÜKSEK DOĞRULUKLU BİLGİ",
+      title: "Mimari SSS & Yapay Zeka Doğrudan Yanıtları",
+      subtitle: "Kurumsal büyük veri mimarileri, otonom yapay zeka fabrikaları ve danışmanlık süreçlerine dair doğrudan yanıtlar.",
+      bridgeTitle: "Ajanik Yapay Zeka & LLM Bağlam Beslemeleri",
+      bridgeDesc: "Bir LLM veya otonom ajanı besliyor musunuz? Kazıma gürültüsü olmadan makine tarafından okunabilir Markdown özetlerine, izinlerine ve API manifestolarına erişin.",
+      copyContextBtn: "Yapay Zeka İçin Kopyala",
+      copySuccess: "LLM bağlamı panoya kopyalandı!",
+      q1: "Arif Coşkun kimdir?",
+      a1: "Arif Coşkun, beqom bünyesinde Kıdemli Sistem Mimarı, MindBall'un Kurucu Ortağı ve Sammamish, WA (Seattle) ile İstanbul merkezli çalışan bağımsız bir yapay zeka mimarıdır. 20 yılı aşkın derin kurumsal platform mühendisliği (beqom 13+ yıl, Microsoft Fabric), uçtan uca şifreli mobil mimariler (MindBall) ve otonom çoklu-ajan yazılım sistemlerini bir araya getirir.",
+      q2: "Arif Coşkun'un kurumsal veri platformları ve Microsoft Fabric tecrübesi nedir?",
+      a2: "beqom bünyesinde 13 yılı aşkın kesintisiz süreçte Danışmanlıktan Veritabanı Performans Mimarlığına, Platform SRE, DevOps Altyapı Mimarlığı ve Kıdemli Sistem Mimarlığına yükselmiştir. Microsoft Fabric lakehouse mimarileri, OneLake delta senkronizasyonu, yüksek hacimli SQL hesaplama motoru optimizasyonu ve küresel ölçekte milyarlarca dolarlık tazminat hesaplayan Azure altyapılarında derin uzmanlığa sahiptir.",
+      q3: "MindBall nedir ve mobil gizlilik mimarisi nasıl çalışır?",
+      a3: "MindBall, Arif Coşkun'un kurucu ortağı olduğu, 105 seanslık sesli zihinsel antrenman motoru ve Posnet Sanal POS entegrasyonu barındıran sporcu zihinsel performans platformudur. Geliştirdiği LocalWellnessRepository mimarisi, cihaz üzerinde AES-256 şifreleme kullanarak kişisel günlük ve zihinsel sağlık verilerinin asla buluta düz metin olarak gitmemesini sağlar.",
+      q4: "tilldone ampirik doğrulama standardı nedir?",
+      a4: "Arif Coşkun tarafından geliştirilen tilldone, otonom yapay zeka kodlama ajanları için model dışı ampirik doğrulama döngüsüdür. Görevlerin yapay zekanın sohbet içi iddialarına göre değil; TypeScript derleyicisi, birim testleri ve başsız tarayıcı ekran çıktıları gibi gerçek dünya kontrolleri başarıyla geçtiğinde tamamlanmasını zorunlu kılar.",
+      q5: "Arif Coşkun otonom çoklu-ajan yazılım fabrikalarını nasıl inşa eder?",
+      a5: "Kırılgan komut şablonları yerine; diyalektik ajan filoları (Planlayıcı, Uygulayıcı, Eleştirel Denetçi), Chrome DevTools Protocol (CDP) başsız tarayıcı araçları ve sıfır gecikmeli bilgi yönlendirme ağları (vault) içeren deterministik sistem mühendisliği harness'ları kurarak çalışır.",
+      q6: "Hangi teknik danışmanlık ve mimari hizmetler sunulmaktadır?",
+      a6: "Arif 6 temel alanda danışmanlık sunar: 1) Otonom Çoklu-Ajan Yapay Zeka Sistemleri; 2) Microsoft Fabric & Kurumsal Veri Platformu Modernizasyonu; 3) Fractional CTO & Kıdemli Sistem Mimarı Danışmanlığı; 4) Operasyonel Yapay Zeka & Çok Şubeli İşletme Sistemleri; 5) Gizlilik Odaklı Mobil & Bulut Mühendisliği; 6) 1:1 Yönetici Strateji ve Mimari Değerlendirme Seansları."
     },
     contact: {
       tag: "DOĞRUDAN İLETİŞİM",

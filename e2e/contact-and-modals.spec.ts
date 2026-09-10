@@ -39,7 +39,9 @@ test.describe('Modals, Contact Form & Interactive Drawers', () => {
       await dialog.accept();
     });
 
-    await page.locator('#contact-submit-btn').click({ force: true });
+    const submitBtn = page.locator('#contact-submit-btn');
+    await submitBtn.scrollIntoViewIfNeeded();
+    await submitBtn.dispatchEvent('click');
 
     // Verify toast notification appears
     await expect(site.toastNotification).toBeVisible();

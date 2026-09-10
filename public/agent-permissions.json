@@ -1,0 +1,31 @@
+{
+  "$schema": "https://raw.githubusercontent.com/addyosmani/agentic-seo/main/docs/agent-permissions.schema.json",
+  "version": "1.0",
+  "name": "Arif Coskun Authority Platform",
+  "description": "Public architectural authority hub and personal advisory platform for Arif Coskun",
+  "canonicalUrl": "https://arifcoskun.com",
+  "permissions": {
+    "content": {
+      "read": true,
+      "index": true,
+      "cite": true,
+      "train": false
+    },
+    "interactions": {
+      "forms": "human-in-the-loop",
+      "rateLimit": {
+        "requestsPerMinute": 60
+      }
+    }
+  },
+  "discovery": {
+    "llmsTxt": "https://arifcoskun.com/llms.txt",
+    "llmsFullTxt": "https://arifcoskun.com/llms-full.txt",
+    "sitemap": "https://arifcoskun.com/sitemap.xml",
+    "indexNowKey": "https://arifcoskun.com/be64f865877649b881b543355c185294.txt"
+  },
+  "contacts": {
+    "technical": "coskun.arf@gmail.com",
+    "inquiries": "arif.coskun@profithelm.com"
+  }
+}

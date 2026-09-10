@@ -12,8 +12,8 @@ test.describe('Visual Regression & Dark Luxury Theme Verification', () => {
       content: `
         html, body, *, *::before, *::after {
           scroll-behavior: auto !important;
-          animation-duration: 0.01ms !important;
-          transition-duration: 0.01ms !important;
+          animation: none !important;
+          transition: none !important;
         }
       `
     });

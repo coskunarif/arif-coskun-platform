@@ -44,4 +44,9 @@ MindBall utilizes `LocalWellnessRepository`, an on-device AES encrypted storage 
 ## Core Philosophical Motto
 "Software is not done because an AI thinks it is done. It is done when reality agrees."
 
-For the comprehensive 20+ year trajectory, architecture breakdowns, and full service catalog, see: https://arifcoskun.com/llms-full.txt
+## Documented Links & Specifications
+- [Full Architecture Profile & Biography](https://arifcoskun.com/llms-full.txt): Comprehensive 20+ year technical trajectory, architecture case studies, and complete service catalog (1.8K tokens)
+- [Agent Permissions Configuration](https://arifcoskun.com/agent-permissions.json): Machine-readable access policy, citation allowance, and interaction rules (350 tokens)
+- [Platform Capability Skill Contract](https://arifcoskun.com/skill.md): Machine-readable agent capabilities, inputs, and constraints (300 tokens)
+- [IndexNow Verification Key](https://arifcoskun.com/be64f865877649b881b543355c185294.txt): Verification key for instant push-indexing protocol (32 tokens)
+- [XML Sitemap](https://arifcoskun.com/sitemap.xml): Machine-readable URL hierarchy and last modified timestamps (450 tokens)

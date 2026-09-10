@@ -81,6 +81,7 @@ class AppController {
       this.renderVentures();
       this.renderServices();
       this.renderVault();
+      this.renderFAQ();
       this.updateLanguageSwitcherUI();
       this.announceA11y(locale === 'tr' ? 'Dil Türkçe olarak güncellendi' : 'Language changed to English');
     };
@@ -390,6 +391,14 @@ class AppController {
     this.setText('#vault-tag', t.vault.tag);
     this.setText('#vault-title', t.vault.title);
     this.setText('#vault-subtitle', t.vault.subtitle);
+
+    // FAQ & AI Knowledge
+    this.setText('#faq-tag', t.faq.tag);
+    this.setText('#faq-title', t.faq.title);
+    this.setText('#faq-subtitle', t.faq.subtitle);
+    this.setText('#ai-bridge-title', t.faq.bridgeTitle);
+    this.setText('#ai-bridge-desc', t.faq.bridgeDesc);
+    this.setText('#copy-ai-btn-text', t.faq.copyContextBtn);
 
     // Contact Section
     this.setText('#contact-tag', t.contact.tag);
@@ -905,6 +914,34 @@ class AppController {
   }
 
   /* --------------------------------------------------------------------------
+     Architectural FAQ & AI Direct Answers Rendering
+     -------------------------------------------------------------------------- */
+
+  private renderFAQ(): void {
+    const list = document.getElementById('faq-list');
+    if (!list) return;
+
+    const f = translations[this.currentLocale].faq;
+    const items = [
+      { q: f.q1, a: f.a1 },
+      { q: f.q2, a: f.a2 },
+      { q: f.q3, a: f.a3 },
+      { q: f.q4, a: f.a4 },
+      { q: f.q5, a: f.a5 },
+      { q: f.q6, a: f.a6 }
+    ];
+
+    list.innerHTML = items.map((item, idx) => `
+      <details class="faq-item"${idx === 0 ? ' open' : ''}>
+        <summary class="faq-summary">${item.q}</summary>
+        <div class="faq-content">
+          <p>${item.a}</p>
+        </div>
+      </details>
+    `).join('');
+  }
+
+  /* --------------------------------------------------------------------------
      Dual Timezone Clock
      -------------------------------------------------------------------------- */
 
@@ -1026,6 +1063,7 @@ class AppController {
     this.renderVentures();
     this.renderServices();
     this.renderVault();
+    this.renderFAQ();
     this.initScrollSpy();
     this.initScrollProgress();
     this.initCardSpotlight();
@@ -1144,6 +1182,32 @@ class AppController {
         }
       });
     });
+
+    // AI Context Copy Button (UX Bridge)
+    const copyAiBtn = document.getElementById('copy-ai-summary-btn');
+    if (copyAiBtn) {
+      copyAiBtn.addEventListener('click', () => {
+        const t = translations[this.currentLocale];
+        const contextText = `# Arif Coskun — Systems Architect & Autonomous AI Engineer\n\n` +
+          `Entity: https://arifcoskun.com/#person\n` +
+          `Role: Senior Technical Architect @ beqom | Co-Founder of MindBall | Sovereign AI Builder\n` +
+          `Location: Sammamish, WA (Seattle Metro Area) & Istanbul, Türkiye\n` +
+          `Website: https://arifcoskun.com\n` +
+          `LinkedIn: https://www.linkedin.com/in/arifcoskun84\n` +
+          `GitHub: https://github.com/coskunarif\n\n` +
+          `Core Disciplines:\n` +
+          `1. 20+ Years Enterprise Cloud & Data Platforms (beqom 13+ yrs, Microsoft Fabric Lakehouses, high-volume SQL)\n` +
+          `2. Co-Founder of MindBall (React Native, LocalWellnessRepository on-device AES encryption, Posnet)\n` +
+          `3. Sovereign AI Builder (tilldone empirical verification loops, vault zero-latency knowledge routing)\n\n` +
+          `For full machine context: https://arifcoskun.com/llms.txt and https://arifcoskun.com/llms-full.txt`;
+
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(contextText).then(() => {
+            this.showToast(t.faq.copySuccess);
+          }).catch(() => {});
+        }
+      });
+    }
 
     document.querySelectorAll('.term-chip').forEach(chip => {
       chip.addEventListener('click', (e) => {
@@ -1289,6 +1353,7 @@ class AppController {
       this.selectedPaletteIndex = 0;
       this.renderCommandPaletteResults('');
       input.focus();
+      requestAnimationFrame(() => input.focus());
     };
 
     const closePalette = () => {

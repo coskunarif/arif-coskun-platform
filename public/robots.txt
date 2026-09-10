@@ -1,22 +1,60 @@
 User-agent: *
 Allow: /
 
+# OpenAI Crawlers (ChatGPT & SearchGPT)
 User-agent: GPTBot
 Allow: /
 
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic Crawlers (Claude)
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity AI Crawlers
 User-agent: PerplexityBot
 Allow: /
 
+# Google Gemini & AI Overviews
 User-agent: Google-Extended
 Allow: /
 
+User-agent: Googlebot
+Allow: /
+
+# Microsoft Bing & Copilot
+User-agent: Bingbot
+Allow: /
+
+# Apple Intelligence
 User-agent: Applebot-Extended
 Allow: /
 
+User-agent: Applebot
+Allow: /
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# Cohere & Diffbot
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+# Common Crawl
 User-agent: CCBot
 Allow: /
 
+# Sitemaps and AI Context Endpoints
 Sitemap: https://arifcoskun.com/sitemap.xml
+# LLM Context: https://arifcoskun.com/llms.txt
+# Full Profile: https://arifcoskun.com/llms-full.txt
+# Agent Permissions: https://arifcoskun.com/agent-permissions.json
+# Skill Contract: https://arifcoskun.com/skill.md
