@@ -9,7 +9,10 @@ describe('Interactive Terminal Shell & Command Parser', () => {
     '--business-automation',
     '--privacy-vaults',
     '--benchmark',
-    '--bio'
+    '--bio',
+    '--manifesto',
+    '--skills',
+    '--contact'
   ];
 
   it('contains all required production response scripts', () => {
@@ -37,16 +40,38 @@ describe('Interactive Terminal Shell & Command Parser', () => {
     }
   });
 
+  it('resolves intuitive terminal aliases seamlessly', () => {
+    const whoami = executeTerminalCommand('whoami', 'en');
+    expect(whoami.success).toBe(true);
+    expect(whoami.output).toBe(terminalResponses['--bio'].output.en);
+
+    const manifesto = executeTerminalCommand('manifesto', 'en');
+    expect(manifesto.success).toBe(true);
+    expect(manifesto.output).toBe(terminalResponses['--manifesto'].output.en);
+
+    const skills = executeTerminalCommand('skills', 'en');
+    expect(skills.success).toBe(true);
+    expect(skills.output).toBe(terminalResponses['--skills'].output.en);
+
+    const contact = executeTerminalCommand('contact', 'en');
+    expect(contact.success).toBe(true);
+    expect(contact.output).toBe(terminalResponses['--contact'].output.en);
+  });
+
   it('handles help command in both locales', () => {
     const enHelp = executeTerminalCommand('help', 'en');
     expect(enHelp.success).toBe(true);
     expect(enHelp.output).toContain('AVAILABLE COMMANDS:');
     expect(enHelp.output).toContain('--tilldone-loop');
+    expect(enHelp.output).toContain('--manifesto');
+    expect(enHelp.output).toContain('--skills');
+    expect(enHelp.output).toContain('--contact');
 
     const trHelp = executeTerminalCommand('help', 'tr');
     expect(trHelp.success).toBe(true);
     expect(trHelp.output).toContain('KULLANILABİLİR KOMUTLAR:');
     expect(trHelp.output).toContain('--tilldone-loop');
+    expect(trHelp.output).toContain('--manifesto');
   });
 
   it('handles clear command cleanly', () => {

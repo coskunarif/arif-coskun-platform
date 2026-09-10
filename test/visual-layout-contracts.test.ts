@@ -97,11 +97,45 @@ describe('Visual Layout & UI/UX Design System Contracts', () => {
       }
     });
 
-    it('has dual-timezone clocks with live status indicator', () => {
+    it('has dual-timezone clocks with live status indicator and differential badge', () => {
       const clockWa = document.getElementById('clock-time-wa');
       const clockIst = document.getElementById('clock-time-ist');
+      const clockDiff = document.getElementById('clock-diff-badge');
       expect(clockWa).not.toBeNull();
       expect(clockIst).not.toBeNull();
+      expect(clockDiff).not.toBeNull();
+    });
+  });
+
+  describe('6. Luxury Micro-Interactions & Omni-Search Navigation', () => {
+    it('contains hairline scroll progress indicator at top of document', () => {
+      const scrollBar = document.getElementById('scroll-progress-bar');
+      expect(scrollBar).not.toBeNull();
+      expect(scrollBar?.getAttribute('aria-hidden')).toBe('true');
+    });
+
+    it('contains command palette trigger and modal with accessibility attributes', () => {
+      const trigger = document.getElementById('cmd-k-trigger');
+      expect(trigger).not.toBeNull();
+      expect(trigger?.getAttribute('aria-label')).toContain('Cmd+K');
+
+      const modal = document.getElementById('cmd-palette-modal');
+      expect(modal).not.toBeNull();
+      expect(modal?.getAttribute('role')).toBe('dialog');
+      expect(modal?.getAttribute('aria-modal')).toBe('true');
+
+      const input = document.getElementById('cmd-palette-input');
+      expect(input).not.toBeNull();
+
+      const results = document.getElementById('cmd-palette-results');
+      expect(results).not.toBeNull();
+      expect(results?.getAttribute('role')).toBe('listbox');
+    });
+
+    it('contains terminal clipboard copy action button in terminal header', () => {
+      const copyBtn = document.getElementById('term-copy-btn');
+      expect(copyBtn).not.toBeNull();
+      expect(copyBtn?.getAttribute('aria-label')).toContain('Copy terminal output');
     });
   });
 });

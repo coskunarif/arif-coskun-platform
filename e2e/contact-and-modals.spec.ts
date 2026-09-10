@@ -45,4 +45,32 @@ test.describe('Modals, Contact Form & Interactive Drawers', () => {
     await expect(site.toastNotification).toBeVisible();
     await expect(site.toastNotification).toHaveClass(/active/);
   });
+
+  test('opens command palette, queries system, navigates results, and closes cleanly', async ({ page }) => {
+    const site = new PersonalWebsitePage(page);
+    await site.goto();
+
+    const cmdModal = page.locator('#cmd-palette-modal');
+    const cmdInput = page.locator('#cmd-palette-input');
+
+    // Trigger via button
+    await page.locator('#cmd-k-trigger').click();
+    await expect(cmdModal).toHaveClass(/active/);
+    await cmdInput.focus();
+    await expect(cmdInput).toBeFocused();
+
+    // Query for MindBall
+    await cmdInput.fill('MindBall');
+    const results = page.locator('.cmd-palette-item');
+    await expect(results.first()).toBeVisible();
+    await expect(results.first()).toHaveClass(/selected/);
+
+    // Navigate with ArrowDown to next result
+    await cmdInput.press('ArrowDown');
+    await expect(results.nth(1)).toHaveClass(/selected/);
+
+    // Close via Escape
+    await page.keyboard.press('Escape');
+    await expect(cmdModal).not.toHaveClass(/active/);
+  });
 });

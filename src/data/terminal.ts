@@ -296,6 +296,93 @@ DENEYİM KRONOLOJİSİ:
 
 İLETİŞİM: coskun.arf@gmail.com | linkedin.com/in/arifcoskun84 | @alex98075wa`
     }
+  },
+  '--manifesto': {
+    command: '--manifesto',
+    executionTimeMs: 12,
+    output: {
+      en: `[THE MASTER ARCHITECT MANIFESTO // HIGH-TRUTH, LOW-SLOP]
+--------------------------------------------------------------------------------
+1. REALITY WINS:
+   Software is never complete because an AI asserts it is complete.
+   It is done only when empirical tests, compilation, and live browser sessions pass.
+
+2. GALL'S LAW (COMPLEXITY DISCIPLINE):
+   A complex system that works is invariably found to have evolved from a simple
+   system that worked. Never design complex AI microservices when a deterministic
+   CLI loop solves the problem.
+
+3. SOVEREIGN ENGINEERING:
+   Own your toolchains. Reject opaque prompt frameworks. Build with typed contracts,
+   on-device cryptographic boundaries, and zero-latency knowledge routing.
+
+4. 20-YEAR HORIZON:
+   Enterprise scale is measured in decades, not model release cycles.
+   Anchor AI capabilities to solid relational foundations and resilient data estates.`,
+      tr: `[BAŞ MİMAR MANİFESTOSU // YÜKSEK DOĞRULUK, DÜŞÜK LAF KALABALIĞI]
+--------------------------------------------------------------------------------
+1. GERÇEKLİK KAZANIR:
+   Bir yapay zeka 'tamamlandı' dediği için yazılım bitmiş sayılmaz.
+   Yalnızca ampirik testler, derleme ve gerçek tarayıcı oturumları onayladığında biter.
+
+2. GALL YASASI (SİSTEMSEL SADELİK):
+   Çalışan her karmaşık sistem, çalışan basit bir sistemden evrilmiştir.
+   Deterministik bir CLI döngüsü işi çözüyorken karmaşık yapay zeka mikroservisleri kurmayın.
+
+3. EGEMEN MÜHENDİSLİK:
+   Kendi araç zincirlerinize sahip olun. Saydam olmayan istem katmanlarını reddedin.
+   Tip güvenli sözleşmeler, cihaz içi kriptografik sınırlar ve sıfır gecikmeli bellek kurun.
+
+4. 20 YILLIK PERSPEKTİF:
+   Kurumsal ölçek model güncelleme döngüleriyle değil, on yıllarla ölçülür.
+   Yapay zeka yeteneklerini sağlam ilişkisel temellere ve dayanıklı veri göllerine sabitleyin.`
+    }
+  },
+  '--skills': {
+    command: '--skills',
+    executionTimeMs: 16,
+    output: {
+      en: `[ARIF COSKUN AUTONOMOUS AGENTIC CAPABILITIES & TOOL HARNESSES]
+--------------------------------------------------------------------------------
+• prewalk         : Zero-modification AST & contract explorer (<300 token footprint)
+• probe-auditor   : TDD Gate 1 repro harness authoring isolated failing tests
+• implementer     : Surgical code synthesizer satisfying empirical probes
+• adversarial-qa  : Independent 10-point rubric critic fuzzing viewports & payload edges
+• tilldone loop   : Multi-agent verification orchestrator with CDP browser daemons
+• vault routing   : Zero-hop cognitive memory index (<15ms instant retrieval)
+• chrome-cdp      : Persistent headless DevTools Protocol daemon on port 9222`,
+      tr: `[ARİF COŞKUN OTONOM AJAN YETENEKLERİ & ARAÇ HARNESS'LARI]
+--------------------------------------------------------------------------------
+• prewalk         : Sıfır kod değişikliğiyle AST ve tip sözleşmesi tarayıcısı
+• probe-auditor   : TDD Kapı 1 fail-to-pass izole test mühendisi
+• implementer     : Yalnızca ampirik testleri geçiren cerrahi kod sentezleyicisi
+• adversarial-qa  : 10 puanlık bağımsız eleştirel denetçi ve viewport stres testi
+• tilldone loop   : CDP tarayıcı daemon'lu çok ajanlı ampirik doğrulama orkestratörü
+• vault routing   : Sıfır gecikmeli bilişsel bellek dizini (<15ms anlık erişim)
+• chrome-cdp      : Port 9222 üzerinde çalışan kalıcı başsız Chrome CDP daemon'ı`
+    }
+  },
+  '--contact': {
+    command: '--contact',
+    executionTimeMs: 8,
+    output: {
+      en: `[DIRECT EXECUTIVE CHANNELS // ARIF COSKUN]
+--------------------------------------------------------------------------------
+• Email     : coskun.arf@gmail.com
+• LinkedIn  : https://www.linkedin.com/in/arifcoskun84
+• Twitter/X : https://twitter.com/alex98075wa
+• GitHub    : https://github.com/coskunarif
+• Calendar  : Available for 30-min strategy calls via Contact section
+• Hubs      : Sammamish/Seattle, WA (UTC-7) & Istanbul, TR (UTC+3)`,
+      tr: `[DOĞRUDAN YÖNETİCİ İLETİŞİM KANALLARI // ARİF COŞKUN]
+--------------------------------------------------------------------------------
+• E-posta   : coskun.arf@gmail.com
+• LinkedIn  : https://www.linkedin.com/in/arifcoskun84
+• Twitter/X : https://twitter.com/alex98075wa
+• GitHub    : https://github.com/coskunarif
+• Takvim    : İletişim bölümünden doğrudan 30 dakikalık strateji seansı alınabilir
+• Merkezler : Sammamish/Seattle, WA (UTC-7) & İstanbul, TR (UTC+3)`
+    }
   }
 };
 
@@ -309,6 +396,9 @@ export function getTerminalHelp(locale: Locale): string {
   --privacy-vaults        MindBall cihaz üzerinde AES gizlilik kasası mimarisi
   --benchmark             Canlı sistem başarım ve gecikme metrikleri
   --bio                   Arif Coşkun doğrulanmış 20+ yıllık profil özeti
+  --manifesto             Yüksek doğruluklu baş mimar manifestosu
+  --skills                Otonom ajan yetenekleri ve araç harness'ları
+  --contact               Doğrudan yönetici iletişim kanalları
   help                    Bu yardım menüsünü görüntüler
   clear                   Terminal ekranını temizler`;
   }
@@ -320,6 +410,9 @@ export function getTerminalHelp(locale: Locale): string {
   --privacy-vaults        MindBall on-device AES encrypted privacy architecture
   --benchmark             Live system performance and latency benchmarks
   --bio                   Arif Coskun verified 20+ year executive profile
+  --manifesto             The Master Architect high-truth engineering manifesto
+  --skills                Autonomous agentic capabilities & tool harnesses
+  --contact               Direct executive consultation channels
   help                    Display this help menu
   clear                   Clear the terminal screen`;
 }
@@ -342,7 +435,17 @@ export function executeTerminalCommand(cmdRaw: string, locale: Locale = 'en'): T
   if (cmd === 'help') {
     return { command: 'help', success: true, executionTimeMs: 4, output: getTerminalHelp(locale) };
   }
-  const matched = terminalResponses[cmd];
+
+  // Support command aliases
+  let lookupKey = cmd;
+  if (lookupKey === 'whoami') lookupKey = '--bio';
+  else if (lookupKey === 'manifesto') lookupKey = '--manifesto';
+  else if (lookupKey === 'skills') lookupKey = '--skills';
+  else if (lookupKey === 'contact') lookupKey = '--contact';
+  else if (lookupKey === 'benchmark') lookupKey = '--benchmark';
+  else if (lookupKey === 'bio') lookupKey = '--bio';
+
+  const matched = terminalResponses[lookupKey] || terminalResponses[`--${lookupKey}`];
   if (matched) {
     return {
       command: matched.command,

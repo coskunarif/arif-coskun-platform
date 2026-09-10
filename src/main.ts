@@ -17,6 +17,9 @@ class AppController {
   private selectedArchNodeId: string = 'mb-frontend';
   private activeTimelineCategory: TimelineCategory | 'all' = 'all';
   private terminalHistory: { cmd: string; time: number; output: string }[] = [];
+  private terminalCmdHistory: string[] = [];
+  private historyIndex: number = -1;
+  private selectedPaletteIndex: number = 0;
 
   constructor() {
     this.initLocale();
@@ -331,6 +334,19 @@ class AppController {
         <div class="inspector-metric-val">${activeNode.latencyBenchmark}</div>
       </div>
 
+      <div class="telemetry-hud-grid">
+        <div class="telemetry-hud-card">
+          <span class="telemetry-hud-label">${this.currentLocale === 'tr' ? 'DOĞRULAMA KAPISI' : 'VERIFICATION GATE'}</span>
+          <span class="telemetry-hud-val" style="color: var(--accent-emerald);">100% Deterministic</span>
+          <div class="telemetry-meter-track"><div class="telemetry-meter-fill" style="width: 100%;"></div></div>
+        </div>
+        <div class="telemetry-hud-card">
+          <span class="telemetry-hud-label">${this.currentLocale === 'tr' ? 'GİZLİLİK VE ERİŞİM' : 'SECURITY & PRIVACY'}</span>
+          <span class="telemetry-hud-val">${activeNode.category === 'security' || activeNode.category === 'frontend' ? 'Zero Cloud Exposure' : 'CMK Encrypted'}</span>
+          <div class="telemetry-meter-track"><div class="telemetry-meter-fill" style="width: 95%;"></div></div>
+        </div>
+      </div>
+
       <div class="inspector-section-label">${t.securityLabel}</div>
       <p class="inspector-section-text">${activeNode.securityBoundary[this.currentLocale]}</p>
 
@@ -344,10 +360,31 @@ class AppController {
 
       ${activeNode.codeSnippet ? `
         <div class="code-snippet-box">
+          <div class="code-snippet-header">
+            <span class="code-snippet-lang">TypeScript // Implementation</span>
+            <button class="copy-snippet-btn" id="copy-snippet-btn" aria-label="Copy code snippet">Copy Code</button>
+          </div>
           <pre><code>${highlightCodeSyntax(activeNode.codeSnippet)}</code></pre>
         </div>
       ` : ''}
     `;
+
+    // Bind copy snippet button if present
+    const copyBtn = inspectorContainer.querySelector('#copy-snippet-btn') as HTMLButtonElement | null;
+    if (copyBtn && activeNode.codeSnippet) {
+      copyBtn.addEventListener('click', () => {
+        if (navigator.clipboard && activeNode.codeSnippet) {
+          navigator.clipboard.writeText(activeNode.codeSnippet).then(() => {
+            copyBtn.textContent = '✓ Copied!';
+            setTimeout(() => {
+              copyBtn.textContent = 'Copy Code';
+            }, 2000);
+          }).catch(() => {
+            copyBtn.textContent = '✓ Copied';
+          });
+        }
+      });
+    }
 
     // Bind tab clicks
     tabsContainer.querySelectorAll('.arch-tab-btn').forEach(btn => {
@@ -381,8 +418,14 @@ class AppController {
   }
 
   private executeTerminalCommand(cmdRaw: string): void {
+    const trimmed = cmdRaw.trim();
+    if (trimmed && !this.terminalCmdHistory.includes(trimmed)) {
+      this.terminalCmdHistory.push(trimmed);
+    }
+    this.historyIndex = this.terminalCmdHistory.length;
+
     const res = executeTerminalCommand(cmdRaw, this.currentLocale);
-    if (!res.command && !cmdRaw.trim()) return;
+    if (!res.command && !trimmed) return;
 
     if (res.command === 'clear') {
       this.terminalHistory = [];
@@ -712,10 +755,85 @@ class AppController {
 
       if (elWA) elWA.textContent = `${timeWA} PDT`;
       if (elIST) elIST.textContent = `${timeIST} TRT`;
+
+      const hourWA = parseInt(timeWA.split(':')[0], 10);
+      const hourIST = parseInt(timeIST.split(':')[0], 10);
+
+      const statusWaEl = document.getElementById('clock-status-wa');
+      const statusWaText = document.getElementById('clock-status-wa-text');
+      const isBusinessWA = hourWA >= 9 && hourWA < 18;
+
+      if (statusWaEl && statusWaText) {
+        if (isBusinessWA) {
+          statusWaEl.className = 'clock-status active-hours';
+          statusWaText.textContent = this.currentLocale === 'tr' ? 'Çalışma Saatleri (UTC-7)' : 'Active Hours (UTC-7)';
+        } else {
+          statusWaEl.className = 'clock-status standby-hours';
+          statusWaText.textContent = this.currentLocale === 'tr' ? 'Asenkron / Standby' : 'Asynchronous / Off-Hours';
+        }
+      }
+
+      const statusIstEl = document.getElementById('clock-status-ist');
+      const statusIstText = document.getElementById('clock-status-ist-text');
+      const isBusinessIST = hourIST >= 9 && hourIST < 18;
+
+      if (statusIstEl && statusIstText) {
+        if (isBusinessIST) {
+          statusIstEl.className = 'clock-status active-hours';
+          statusIstText.textContent = this.currentLocale === 'tr' ? 'Çalışma Saatleri (UTC+3)' : 'Active Hours (UTC+3)';
+        } else {
+          statusIstEl.className = 'clock-status standby-hours';
+          statusIstText.textContent = this.currentLocale === 'tr' ? 'Asenkron / Standby' : 'Asynchronous / Off-Hours';
+        }
+      }
+
+      const diffTextEl = document.getElementById('clock-diff-text');
+      if (diffTextEl) {
+        diffTextEl.textContent = this.currentLocale === 'tr'
+          ? 'İstanbul, Seattle saatinden 10 saat ileridedir · Kesintisiz asenkron teslimat'
+          : 'Istanbul is 10 hours ahead of Seattle · Continuous asynchronous overlap';
+      }
     };
 
     update();
     setInterval(update, 1000);
+  }
+
+  /* --------------------------------------------------------------------------
+     ScrollSpy Active Navigation Observer
+     -------------------------------------------------------------------------- */
+
+  private initScrollSpy(): void {
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
+
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links .nav-link');
+    if (sections.length === 0 || navLinks.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            if (!id) return;
+            navLinks.forEach((link) => {
+              const href = link.getAttribute('href');
+              if (href === `#${id}`) {
+                link.classList.add('active');
+              } else {
+                link.classList.remove('active');
+              }
+            });
+          }
+        });
+      },
+      {
+        rootMargin: '-25% 0px -65% 0px',
+        threshold: 0
+      }
+    );
+
+    sections.forEach((s) => observer.observe(s));
   }
 
   /* --------------------------------------------------------------------------
@@ -730,6 +848,10 @@ class AppController {
     this.renderVentures();
     this.renderServices();
     this.renderVault();
+    this.initScrollSpy();
+    this.initScrollProgress();
+    this.initCardSpotlight();
+    this.initCommandPalette();
   }
 
   private bindEvents(): void {
@@ -759,16 +881,91 @@ class AppController {
       });
     }
 
-    // Terminal Input & Chips
+    // Terminal Input & Interactive Shell Engine
     const termInput = document.getElementById('terminal-input') as HTMLInputElement;
     if (termInput) {
       termInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
           this.executeTerminalCommand(termInput.value);
           termInput.value = '';
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (this.terminalCmdHistory.length > 0) {
+            if (this.historyIndex > 0) {
+              this.historyIndex--;
+            }
+            termInput.value = this.terminalCmdHistory[this.historyIndex] || '';
+          }
+        } else if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (this.historyIndex < this.terminalCmdHistory.length - 1) {
+            this.historyIndex++;
+            termInput.value = this.terminalCmdHistory[this.historyIndex] || '';
+          } else {
+            this.historyIndex = this.terminalCmdHistory.length;
+            termInput.value = '';
+          }
+        } else if (e.key === 'Tab') {
+          e.preventDefault();
+          const val = termInput.value.trim().toLowerCase();
+          if (val) {
+            const candidates = [
+              '--why-not-langchain',
+              '--tilldone-loop',
+              '--fabric-migration',
+              '--manifesto',
+              '--skills',
+              '--business-automation',
+              '--privacy-vaults',
+              '--benchmark',
+              '--bio',
+              '--contact',
+              'help',
+              'clear',
+              'whoami'
+            ];
+            const match = candidates.find(c => c.startsWith(val));
+            if (match) {
+              termInput.value = match;
+            }
+          }
         }
       });
     }
+
+    // Terminal Copy Output Button
+    const copyTermBtn = document.getElementById('term-copy-btn');
+    if (copyTermBtn) {
+      copyTermBtn.addEventListener('click', () => {
+        const text = this.terminalHistory
+          .map(h => `arif@second-brain:~$ ${h.cmd}\n${h.output}\n⚡ 100% Deterministic · Executed in ${h.time}ms`)
+          .join('\n\n');
+        const origContent = copyTermBtn.innerHTML;
+        const confirmText = this.currentLocale === 'tr' ? 'Kopyalandı!' : 'Copied!';
+        copyTermBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> <span>${confirmText}</span>`;
+        copyTermBtn.classList.add('copied');
+        setTimeout(() => {
+          copyTermBtn.innerHTML = origContent;
+          copyTermBtn.classList.remove('copied');
+        }, 2000);
+
+        if (navigator.clipboard && text) {
+          navigator.clipboard.writeText(text).catch(() => {});
+        }
+        this.showToast(this.currentLocale === 'tr' ? 'Terminal çıktıları panoya kopyalandı!' : 'Terminal output copied to clipboard!');
+      });
+    }
+
+    // Direct Email Copy Feedback on social channels
+    document.querySelectorAll('.social-links-list a[href^="mailto:"]').forEach(link => {
+      link.addEventListener('click', () => {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText('coskun.arf@gmail.com').then(() => {
+            this.showToast(this.currentLocale === 'tr' ? 'E-posta panoya kopyalandı: coskun.arf@gmail.com' : 'Email copied to clipboard: coskun.arf@gmail.com');
+          });
+        }
+      });
+    });
 
     document.querySelectorAll('.term-chip').forEach(chip => {
       chip.addEventListener('click', (e) => {
@@ -857,6 +1054,341 @@ class AppController {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
+  }
+
+  /* --------------------------------------------------------------------------
+     Scroll Progress Hairline Indicator
+     -------------------------------------------------------------------------- */
+
+  private initScrollProgress(): void {
+    const bar = document.getElementById('scroll-progress-bar');
+    if (!bar) return;
+
+    const update = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      bar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+    };
+
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+
+  /* --------------------------------------------------------------------------
+     Cursor Radial Spotlight Physics
+     -------------------------------------------------------------------------- */
+
+  private initCardSpotlight(): void {
+    document.addEventListener('mousemove', (e: MouseEvent) => {
+      const card = (e.target as HTMLElement)?.closest?.('.precision-card, .terminal-window, .metric-pill') as HTMLElement | null;
+      if (card) {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      }
+    }, { passive: true });
+  }
+
+  /* --------------------------------------------------------------------------
+     Omni-Search Command Palette (Cmd+K)
+     -------------------------------------------------------------------------- */
+
+  private initCommandPalette(): void {
+    const modal = document.getElementById('cmd-palette-modal');
+    const trigger = document.getElementById('cmd-k-trigger');
+    const closeBtn = document.getElementById('cmd-palette-close-btn');
+    const input = document.getElementById('cmd-palette-input') as HTMLInputElement;
+    const resultsContainer = document.getElementById('cmd-palette-results');
+
+    if (!modal || !input || !resultsContainer) return;
+
+    const openPalette = () => {
+      modal.classList.add('active');
+      input.value = '';
+      this.selectedPaletteIndex = 0;
+      this.renderCommandPaletteResults('');
+      input.focus();
+    };
+
+    const closePalette = () => {
+      modal.classList.remove('active');
+      input.blur();
+    };
+
+    if (trigger) trigger.addEventListener('click', openPalette);
+    if (closeBtn) closeBtn.addEventListener('click', closePalette);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closePalette();
+    });
+
+    // Global keyboard triggers (Cmd+K, Ctrl+K, /)
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (modal.classList.contains('active')) {
+          closePalette();
+        } else {
+          openPalette();
+        }
+      } else if (e.key === 'Escape' && modal.classList.contains('active')) {
+        e.preventDefault();
+        closePalette();
+      } else if (
+        e.key === '/' &&
+        !modal.classList.contains('active') &&
+        document.activeElement?.tagName !== 'INPUT' &&
+        document.activeElement?.tagName !== 'TEXTAREA'
+      ) {
+        e.preventDefault();
+        openPalette();
+      }
+    });
+
+    // Search input typing & keyboard navigation
+    input.addEventListener('input', () => {
+      this.selectedPaletteIndex = 0;
+      this.renderCommandPaletteResults(input.value.trim());
+    });
+
+    input.addEventListener('keydown', (e: KeyboardEvent) => {
+      const items = resultsContainer.querySelectorAll<HTMLElement>('.cmd-palette-item');
+      if (items.length === 0) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        this.selectedPaletteIndex = (this.selectedPaletteIndex + 1) % items.length;
+        this.updatePaletteSelection(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        this.selectedPaletteIndex = (this.selectedPaletteIndex - 1 + items.length) % items.length;
+        this.updatePaletteSelection(items);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const selected = items[this.selectedPaletteIndex];
+        if (selected) {
+          selected.click();
+        }
+      }
+    });
+  }
+
+  private updatePaletteSelection(items: NodeListOf<HTMLElement>): void {
+    items.forEach((item, idx) => {
+      if (idx === this.selectedPaletteIndex) {
+        item.classList.add('selected');
+        item.scrollIntoView({ block: 'nearest' });
+      } else {
+        item.classList.remove('selected');
+      }
+    });
+  }
+
+  private getSearchablePaletteItems(): Array<{
+    id: string;
+    title: string;
+    desc: string;
+    badge: string;
+    category: string;
+    action: () => void;
+  }> {
+    const isTr = this.currentLocale === 'tr';
+    const items: Array<{
+      id: string;
+      title: string;
+      desc: string;
+      badge: string;
+      category: string;
+      action: () => void;
+    }> = [];
+
+    // 1. Navigation Sections
+    const navSections = [
+      { id: 'architectures', title: isTr ? 'Sistem Mimarileri' : 'System Architectures', desc: isTr ? 'MindBall, Fabric ve Otonom AI Mimarileri' : 'Interactive blueprints for MindBall, Fabric & Sovereign AI Swarm', badge: 'Section' },
+      { id: 'terminal', title: isTr ? 'Etkileşimli Terminal' : 'Interactive Terminal', desc: isTr ? 'CLI tabanlı sistem doğrulama ve benchmark motoru' : 'CLI-based verification, telemetry and hardware benchmarks', badge: 'Terminal' },
+      { id: 'ventures', title: isTr ? 'Girişimler ve Kurucu Ortaklıklar' : 'Live Ventures & Co-Founding', desc: isTr ? 'MindBall, Gainhelm ve sovereign AI sistemleri' : 'Production platforms with verified user traction', badge: 'Ventures' },
+      { id: 'evolution', title: isTr ? '20 Yıllık Mühendislik Evrimi' : '20-Year Evolution Matrix', desc: isTr ? 'beqom, Microsoft Fabric, MindBall ve mimari mihenk taşları' : 'Enterprise career timeline from Swiss enterprise to AI builder', badge: 'Timeline' },
+      { id: 'services', title: isTr ? 'Danışmanlık ve Mimari Hizmetleri' : 'Advisory & Architecture Services', desc: isTr ? 'Kurumsal modernizasyon, Sovereign AI Swarm ve danışmanlık paketleri' : 'High-impact enterprise advisory and architectural sprints', badge: 'Services' },
+      { id: 'vault', title: isTr ? 'Bilgi Kasası ve Teknik Makaleler' : 'Knowledge Vault & Essays', desc: isTr ? 'Derinlemesine teknik mimari analizleri ve invariantlar' : 'Long-form architectural blueprints and engineering invariants', badge: 'Vault' },
+      { id: 'contact', title: isTr ? 'İletişim ve Takvim Randevusu' : 'Executive Engagement & Calendar', desc: isTr ? 'Seattle & İstanbul saat dilimlerinde doğrudan görüşme' : 'Direct executive inquiry and Cal.com booking scheduler', badge: 'Contact' }
+    ];
+
+    navSections.forEach(s => {
+      items.push({
+        id: `nav-${s.id}`,
+        title: s.title,
+        desc: s.desc,
+        badge: s.badge,
+        category: isTr ? 'Bölümler' : 'Navigation',
+        action: () => {
+          const el = document.getElementById(s.id);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // 2. Terminal Commands
+    const termCommands = [
+      { cmd: 'help', title: 'help', desc: isTr ? 'Tüm terminal komutlarını ve seçenekleri listele' : 'List all available shell commands and diagnostic flags', badge: 'CLI' },
+      { cmd: '--manifesto', title: '--manifesto', desc: isTr ? 'Yüksek Doğruluklu Mühendislik Standartları ve İlkeleri' : 'High-Truth, Low-Slop Sovereign Engineering Invariants', badge: 'CLI' },
+      { cmd: '--mindball', title: '--mindball', desc: isTr ? 'MindBall React Native, Posnet & Donanım Şifreleme Özeti' : 'MindBall hardware-grade AES-256 and Posnet architecture', badge: 'CLI' },
+      { cmd: '--fabric', title: '--fabric', desc: isTr ? 'Microsoft Fabric OneLake, Medallion & beqom Entegrasyonu' : 'Microsoft Fabric Lakehouse Medallion architecture', badge: 'CLI' },
+      { cmd: '--skills', title: '--skills', desc: isTr ? '20+ Yıllık Teknik Yetkinlik ve Mimari Envanter' : 'Comprehensive 20+ year technical stack & architecture inventory', badge: 'CLI' },
+      { cmd: '--benchmark', title: '--benchmark', desc: isTr ? 'Donanım ve Çalışma Zamanı Performans Telemetrisi' : 'Empirical runtime benchmarks, latency & hardware matrix', badge: 'CLI' },
+      { cmd: '--contact', title: '--contact', desc: isTr ? 'Doğrudan İletişim Kanalları ve Cal.com Randevusu' : 'Executive contact details and scheduling links', badge: 'CLI' }
+    ];
+
+    termCommands.forEach(c => {
+      items.push({
+        id: `term-${c.cmd}`,
+        title: c.title,
+        desc: c.desc,
+        badge: c.badge,
+        category: isTr ? 'Terminal Komutları' : 'Commands',
+        action: () => {
+          this.executeTerminalCommand(c.cmd);
+          const el = document.getElementById('terminal');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // 3. System Architectures
+    architectures.forEach(arch => {
+      items.push({
+        id: `arch-${arch.id}`,
+        title: arch.title[this.currentLocale],
+        desc: arch.tagline[this.currentLocale],
+        badge: arch.tabTitle[this.currentLocale].split('.')[0] || 'System',
+        category: isTr ? 'Sistem Mimarileri' : 'Architectures',
+        action: () => {
+          this.selectedArchSystemId = arch.id;
+          this.selectedArchNodeId = arch.nodes[0]?.id || '';
+          this.renderArchitectureExplorer();
+          const el = document.getElementById('architectures');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // 4. Knowledge Vault Essays
+    vaultEssays.forEach(essay => {
+      items.push({
+        id: `vault-${essay.id}`,
+        title: essay.title[this.currentLocale],
+        desc: essay.subtitle[this.currentLocale],
+        badge: `${essay.readTimeMin} min`,
+        category: isTr ? 'Bilgi Kasası' : 'Vault Essays',
+        action: () => {
+          this.openEssayModal(essay.id);
+        }
+      });
+    });
+
+    // 5. Ventures
+    ventures.forEach(v => {
+      items.push({
+        id: `venture-${v.id}`,
+        title: v.name,
+        desc: v.tagline[this.currentLocale],
+        badge: v.categoryBadge,
+        category: isTr ? 'Girişimler' : 'Ventures',
+        action: () => {
+          this.openVentureModal(v.id);
+        }
+      });
+    });
+
+    return items;
+  }
+
+  private renderCommandPaletteResults(query: string): void {
+    const resultsContainer = document.getElementById('cmd-palette-results');
+    const modal = document.getElementById('cmd-palette-modal');
+    if (!resultsContainer || !modal) return;
+
+    const allItems = this.getSearchablePaletteItems();
+    const q = query.toLowerCase().trim();
+
+    const filtered = q
+      ? allItems.filter(item =>
+          item.title.toLowerCase().includes(q) ||
+          item.desc.toLowerCase().includes(q) ||
+          item.category.toLowerCase().includes(q) ||
+          item.badge.toLowerCase().includes(q)
+        )
+      : allItems.slice(0, 12); // Show top 12 curated actions by default
+
+    if (filtered.length === 0) {
+      resultsContainer.innerHTML = `
+        <div style="padding: 2rem 1rem; text-align: center; color: var(--text-tertiary); font-family: var(--font-mono); font-size: 0.85rem;">
+          ${this.currentLocale === 'tr' ? 'Eşleşen sonuç bulunamadı: ' : 'No matching results for '}"${this.escapeHtml(query)}"
+        </div>
+      `;
+      return;
+    }
+
+    // Group items by category
+    const grouped = new Map<string, typeof filtered>();
+    filtered.forEach(item => {
+      if (!grouped.has(item.category)) {
+        grouped.set(item.category, []);
+      }
+      grouped.get(item.category)!.push(item);
+    });
+
+    let html = '';
+    let globalIndex = 0;
+
+    grouped.forEach((categoryItems, catName) => {
+      html += `<div class="cmd-palette-group-title">${this.escapeHtml(catName)}</div>`;
+      categoryItems.forEach(item => {
+        const isSelected = globalIndex === this.selectedPaletteIndex;
+        html += `
+          <div class="cmd-palette-item ${isSelected ? 'selected' : ''}" data-index="${globalIndex}" data-id="${item.id}" role="option" aria-selected="${isSelected}">
+            <div class="cmd-item-left">
+              <span class="cmd-item-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </span>
+              <div>
+                <div class="cmd-item-title">${this.escapeHtml(item.title)}</div>
+                <div class="cmd-item-desc">${this.escapeHtml(item.desc)}</div>
+              </div>
+            </div>
+            <span class="cmd-item-badge">${this.escapeHtml(item.badge)}</span>
+          </div>
+        `;
+        globalIndex++;
+      });
+    });
+
+    resultsContainer.innerHTML = html;
+
+    // Attach click listeners to items
+    let itemOffset = 0;
+    grouped.forEach((categoryItems) => {
+      categoryItems.forEach(item => {
+        const currentIndex = itemOffset;
+        const el = resultsContainer.querySelector(`.cmd-palette-item[data-index="${currentIndex}"]`);
+        if (el) {
+          el.addEventListener('click', () => {
+            modal.classList.remove('active');
+            item.action();
+          });
+          el.addEventListener('mouseenter', () => {
+            this.selectedPaletteIndex = currentIndex;
+            const allRendered = resultsContainer.querySelectorAll<HTMLElement>('.cmd-palette-item');
+            this.updatePaletteSelection(allRendered);
+          });
+        }
+        itemOffset++;
+      });
+    });
   }
 }
 

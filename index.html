@@ -262,6 +262,9 @@
   </script>
 </head>
 <body>
+  <!-- Viewport Reading Progress Bar -->
+  <div class="scroll-progress-bar" id="scroll-progress-bar" aria-hidden="true"></div>
+
   <!-- Accessibility Skip Link -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -298,6 +301,12 @@
           <button class="lang-btn lang-btn-en active" data-lang="en" aria-pressed="true" aria-label="Switch to English">EN</button>
           <button class="lang-btn lang-btn-tr" data-lang="tr" aria-pressed="false" aria-label="Türkçe diline geç">TR</button>
         </div>
+
+        <button class="cmd-palette-trigger" id="cmd-k-trigger" aria-label="Open Command Palette (Cmd+K)" title="Quick Command Palette (Cmd+K)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <span class="cmd-k-text">Search</span>
+          <kbd class="cmd-k-kbd">⌘K</kbd>
+        </button>
 
         <a href="#contact" class="btn btn-primary btn-sm" id="nav-book-btn">Book Strategy Call</a>
 
@@ -493,7 +502,13 @@
               <div class="terminal-dot"></div>
             </div>
             <div class="terminal-title">arif@second-brain: ~/workspace/vault</div>
-            <span class="badge badge-emerald" id="term-verified-badge">Deterministic Output · 100% Verified</span>
+            <div class="terminal-header-actions">
+              <span class="badge badge-emerald" id="term-verified-badge">Deterministic Output · 100% Verified</span>
+              <button class="term-copy-btn" id="term-copy-btn" aria-label="Copy terminal output" title="Copy terminal output">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span id="term-copy-text">Copy</span>
+              </button>
+            </div>
           </div>
 
           <!-- Quick Query Chips Bar -->
@@ -502,6 +517,8 @@
             <button class="term-chip" data-cmd="--why-not-langchain">--why-not-langchain</button>
             <button class="term-chip" data-cmd="--tilldone-loop">--tilldone-loop</button>
             <button class="term-chip" data-cmd="--fabric-migration">--fabric-migration</button>
+            <button class="term-chip" data-cmd="--manifesto">--manifesto</button>
+            <button class="term-chip" data-cmd="--skills">--skills</button>
             <button class="term-chip" data-cmd="--business-automation">--business-automation</button>
             <button class="term-chip" data-cmd="--privacy-vaults">--privacy-vaults</button>
             <button class="term-chip" data-cmd="--benchmark">--benchmark</button>
@@ -804,11 +821,23 @@
                 <div class="clock-item">
                   <div class="clock-city">SEATTLE / SAMMAMISH (US)</div>
                   <div class="clock-time" id="clock-time-wa">--:--:-- PDT</div>
+                  <div class="clock-status active-hours" id="clock-status-wa">
+                    <span class="status-dot" style="width: 6px; height: 6px;"></span>
+                    <span id="clock-status-wa-text">Active Hours (UTC-7)</span>
+                  </div>
                 </div>
                 <div class="clock-item">
                   <div class="clock-city">ISTANBUL (TR)</div>
                   <div class="clock-time" id="clock-time-ist">--:--:-- TRT</div>
+                  <div class="clock-status active-hours" id="clock-status-ist">
+                    <span class="status-dot" style="width: 6px; height: 6px;"></span>
+                    <span id="clock-status-ist-text">Active Hours (UTC+3)</span>
+                  </div>
                 </div>
+              </div>
+              <div class="clock-diff-badge" id="clock-diff-badge">
+                <span class="clock-diff-icon">⚡</span>
+                <span id="clock-diff-text">Istanbul is 10 hours ahead of Seattle · Direct async overlap</span>
               </div>
             </div>
 
@@ -859,6 +888,23 @@
       <button class="modal-close-btn" id="modal-close-btn" aria-label="Close dialog">✕</button>
       <h3 id="modal-title" style="margin-top: 0;"></h3>
       <div id="modal-body" style="margin-top: 1rem;"></div>
+    </div>
+  </div>
+
+  <!-- Command Palette Modal (Cmd+K) -->
+  <div class="modal-overlay cmd-palette-overlay" id="cmd-palette-modal" role="dialog" aria-modal="true" aria-labelledby="cmd-palette-input">
+    <div class="cmd-palette-dialog">
+      <div class="cmd-palette-search-bar">
+        <svg class="cmd-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="cmd-palette-input" class="cmd-palette-input" placeholder="Type to search architectures, services, essays, or commands..." autocomplete="off" spellcheck="false" />
+        <button class="cmd-palette-close-badge" id="cmd-palette-close-btn" aria-label="Close command palette">ESC</button>
+      </div>
+      <div class="cmd-palette-results" id="cmd-palette-results" role="listbox"></div>
+      <div class="cmd-palette-footer">
+        <span class="cmd-palette-hint"><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+        <span class="cmd-palette-hint"><kbd>↵</kbd> Select</span>
+        <span class="cmd-palette-hint"><kbd>ESC</kbd> Close</span>
+      </div>
     </div>
   </div>
 

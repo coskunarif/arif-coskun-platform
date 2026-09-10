@@ -31,4 +31,22 @@ test.describe('Proof Terminal Shell & Interactive Command Execution', () => {
     await site.executeTerminalCommand('help');
     await expect(page.locator('.term-log-entry').last()).toContainText('AVAILABLE COMMANDS:');
   });
+
+  test('navigates command history with ArrowUp and supports output copy', async ({ page }) => {
+    const site = new PersonalWebsitePage(page);
+    await site.goto();
+
+    const input = page.locator('#terminal-input');
+    await input.fill('--manifesto');
+    await input.press('Enter');
+    await expect(page.locator('.term-log-entry').last()).toContainText('HIGH-TRUTH');
+
+    // ArrowUp recalls previous command
+    await input.press('ArrowUp');
+    await expect(input).toHaveValue('--manifesto');
+
+    // Test clipboard copy button feedback
+    await page.locator('#term-copy-btn').click();
+    await expect(page.locator('#term-copy-btn')).toContainText(/Copied|Kopyalandı/);
+  });
 });
