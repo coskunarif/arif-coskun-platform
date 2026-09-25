@@ -17,11 +17,24 @@ Architect and deliver the world-class personal website and advisory authority hu
 - **Deploy**: `npm run deploy:pages` (Cloudflare Pages) | `./deploy-gcp.sh` (Cloud Run)
 
 ## 2. The 5-Step `tilldone` Empirical Verification Gate
+- **Zero-Rationalization Invariant:** The agent is strictly forbidden from claiming small diff size, lack of test coverage, or timing settled as excuses to skip mechanical verification or push testing to the user. Every fix must be certified with empirical proof (exit code `0`).
 1. `npx tsc --noEmit` (clean build, zero TypeScript diagnostics)
 2. `npm run test` (100% pass across Vitest unit/DOM tests)
 3. `npm run test:e2e` (Playwright cross-browser user flows)
 4. `npm run test:quality-gate` (Lighthouse 100/100, <1s LCP, 0 CLS)
 5. `docker build -t arifcoskun-platform .` (clean multi-stage build)
+
+---
+
+## Universal Intent-Expansion & Co-Founder Operating Principle
+The developer (Arif) provides high-level intent, vision, or symptoms in natural language. The agent MUST NOT force Arif to write long prompts, nor interrogate him with technical trivia.
+By default on ANY prompt (especially brief, vague, or creative blocks):
+1. **Zero Prompting Burden**: Infer complete technical and product intent from codebase, project memory, and past lessons (`vault route "intent expander"`).
+2. **Expose Unknown Unknowns**: Run silent reconnaissance to uncover hidden risks, edge cases, state transitions, and network failure modes (`vault route "blind spot"`).
+3. **Behavioral & Epistemic Gate**: Load governing discipline via Vault: `popper-falsification` + `anti-rationalization` for bugs/flaws, `chestertons-fence` for refactoring, `antislop` for UI/copy, `second-order-thinking` for schema/system mutations, `vault route "imagine"` when hitting creative or architectural limits.
+4. **Relentless Autonomous Execution**: Hand off immediately into `vault route "grill-to-goal"` to turn reproduction probes green (exit 0) with zero premature surrender.
+
+---
 
 ## Specialized Capabilities (Retrieve via Vault on Demand)
 
@@ -29,6 +42,8 @@ When executing specialized tasks, query `vault route "<capability>"` to pull the
 
 | Domain / Task | Command to Run | What it Loads |
 | :--- | :--- | :--- |
+| **Frontier Sparring / Co-Founder** | `vault route "imagine"` | `vault-imagine` (Creative sparring, boundary pushing, 3 shock vectors) |
+| **Autonomous Goal Protocol** | `vault route "grill-to-goal"` | `grill-to-goal` (Autonomous goal protocol, reproduction probes, exit 0) |
 | **Personal Site Verification** | `vault route "personal verification"` | `personal-site-verification` (The 5-step tilldone empirical verification gate) |
 | **Personal Bilingual Copy** | `vault route "personal bilingual copy"` | `personal-bilingual-copy` (EN/TR voice, narrative matrix, 7-sweep quality gate) |
 | **Personal Web Architecture** | `vault route "personal web architecture"` | `personal-web-architecture` (100/100 Lighthouse, sub-1s LCP, zero CLS, WCAG 2.2 AA, 0-shift bilingual state) |
